@@ -29,10 +29,10 @@ namespace api.Controllers
             if (pendingFeedback == null)
                 return BadRequest(new { Message = "Invalid pending feedback id." });
 
-            if (pendingFeedback.RaterId != feedback.RaterId) 
+            if (pendingFeedback.RaterId != feedback.RaterId.ToLower()) 
                 return BadRequest(new { message = "Invalid rater id"});
 
-            if (pendingFeedback.RateeId != feedback.RateeId) 
+            if (pendingFeedback.RateeId != feedback.RateeId.ToLower()) 
                 return BadRequest(new { message = "Invalid ratee id"});
 
             if(string.IsNullOrWhiteSpace(feedback.FeedbackText))
@@ -63,6 +63,7 @@ namespace api.Controllers
         [HttpGet("{employeeId}")]
         public async Task<IActionResult> GetFeedback(string employeeId)
         {
+            employeeId = employeeId.ToLower();
             var feedbacks = await _feedbackRepository.GetAllAsync();
             var userFeedback = feedbacks.Where(f => f.RateeId == employeeId).ToList();
 
@@ -76,8 +77,9 @@ namespace api.Controllers
         [Route("pendingfeedback/{employeeId}")]
         public async Task<IActionResult> GetPendingFeedback(string employeeId)
         {
+            employeeId = employeeId.ToLower();
             var pendingFeedbacks = (await _pendingFeedbackRepository.GetAllAsync())
-                .Where(f => f.RaterId == employeeId && f.Status != PendingFeedback.FeedbackStatus.Completed)
+                .Where(f => f.RaterId == employeeId && f.Status != PendingFeedback.FeedbackStatus.Completed && f.MeetingDate <= DateTime.Now)
                 .OrderBy(f => f.DueDate)
                 .ToList();
 
@@ -92,6 +94,7 @@ namespace api.Controllers
                 Status = DateTime.UtcNow > f.DueDate
                     ? PendingFeedback.FeedbackStatus.Overdue.ToString()
                     : PendingFeedback.FeedbackStatus.Pending.ToString(),
+                MeetingDate = f.MeetingDate,
             });
 
             return Ok(new
