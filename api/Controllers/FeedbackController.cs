@@ -78,6 +78,7 @@ namespace api.Controllers
         {
             var pendingFeedbacks = (await _pendingFeedbackRepository.GetAllAsync())
                 .Where(f => f.RaterId == employeeId && f.Status != PendingFeedback.FeedbackStatus.Completed)
+                .OrderBy(f => f.DueDate)
                 .ToList();
 
             if (!pendingFeedbacks.Any())
