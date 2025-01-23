@@ -11,6 +11,8 @@ public class PendingFeedback
 
     public string RaterId { get; set; }
     public string RateeId { get; set; }
+    public string RaterName { get; set; }
+    public string RateeName { get; set; }
     public DateTime MeetingDate { get; set; }
     public DateTime DueDate { get; set; }
     public FeedbackStatus Status { get; set; } = FeedbackStatus.Pending;

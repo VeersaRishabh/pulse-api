@@ -11,6 +11,8 @@ public class Feedback
 
     public string RaterId { get; set; }
     public string RateeId { get; set; }
+    public string RaterName { get; set; }
+    public string RateeName { get; set; }
     public string FeedbackText { get; set; }
     public double Rating { get; set; }
     public string Timestamp { get; set; } = DateTime.UtcNow.ToString("o");

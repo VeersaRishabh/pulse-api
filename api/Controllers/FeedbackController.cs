@@ -22,7 +22,7 @@ namespace api.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> SubmitFeedback([FromBody] FeedbackDto feedback)
+        public async Task<IActionResult> SubmitFeedback([FromBody] SubmitFeedbackDto feedback)
         {
             var pendingFeedback = await _pendingFeedbackRepository.GetByIdAsync(feedback.PendingFeedbackId);
 
@@ -35,11 +35,17 @@ namespace api.Controllers
             if (pendingFeedback.RateeId != feedback.RateeId.ToLower()) 
                 return BadRequest(new { message = "Invalid ratee id"});
 
+            if(pendingFeedback.RaterName.ToLower() != feedback.RaterName.ToLower())
+                return BadRequest( new { message = "Invalid rater name"});
+            
+            if(pendingFeedback.RateeName.ToLower() != feedback.RateeName.ToLower())
+                return BadRequest( new { message = "Invalid ratee name"});
+
             if(string.IsNullOrWhiteSpace(feedback.FeedbackText))
                 return BadRequest(new { message = "feedback text can't be empty"});
 
-            if(feedback.Rating <=0 || feedback.Rating > 5)
-                return BadRequest(new { message = "rating must be in range 1-5 only"});
+            if(feedback.Rating <=0 || feedback.Rating > 4)
+                return BadRequest(new { message = "rating must be in range 1-4 only"});
 
             if (pendingFeedback.Status == PendingFeedback.FeedbackStatus.Completed)
                 return BadRequest(new { Message = "Feedback already submitted." });
@@ -48,6 +54,8 @@ namespace api.Controllers
             {
                 RaterId = pendingFeedback.RaterId,
                 RateeId = pendingFeedback.RateeId,
+                RaterName = pendingFeedback.RaterName,
+                RateeName = pendingFeedback.RateeName,
                 FeedbackText = feedback.FeedbackText,
                 Rating = feedback.Rating
             };
@@ -69,8 +77,15 @@ namespace api.Controllers
 
             if (!userFeedback.Any())
                 return NotFound(new { Message = "No feedback found for this user." });
+            
+            var userFeedbackListDto = userFeedback.Select(f => new GetFeedbackDto {
+                FeedbackId = f.Id,
+                FeedbackText = f.FeedbackText,
+                Rating = f.Rating,
+                Timestamp = f.Timestamp,
+            });
 
-            return Ok(userFeedback);
+            return Ok(userFeedbackListDto);
         }
 
         [HttpGet]
@@ -95,6 +110,7 @@ namespace api.Controllers
                     ? PendingFeedback.FeedbackStatus.Overdue.ToString()
                     : PendingFeedback.FeedbackStatus.Pending.ToString(),
                 MeetingDate = f.MeetingDate,
+                RateeName = f.RateeName,
             });
 
             return Ok(new
