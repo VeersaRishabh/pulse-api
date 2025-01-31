@@ -2,6 +2,25 @@
   "version": 3,
   "targets": {
     "net8.0": {
+      "AspNetCore.Identity.MongoDbCore/6.0.0": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.Extensions.Identity.Core": "6.0.8",
+          "Microsoft.Extensions.Identity.Stores": "6.0.8",
+          "MongoDB.Driver": "2.28.0",
+          "MongoDbGenericRepository": "1.6.2"
+        },
+        "compile": {
+          "lib/net6.0/AspNetCore.Identity.MongoDbCore.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net6.0/AspNetCore.Identity.MongoDbCore.dll": {
+            "related": ".xml"
+          }
+        }
+      },
       "DnsClient/1.6.1": {
         "type": "package",
         "dependencies": {
@@ -935,6 +954,22 @@
           }
         }
       },
+      "MongoDbGenericRepository/1.6.2": {
+        "type": "package",
+        "dependencies": {
+          "MongoDB.Driver": "2.28.0"
+        },
+        "compile": {
+          "lib/netstandard2.0/MongoDbGenericRepository.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/netstandard2.0/MongoDbGenericRepository.dll": {
+            "related": ".xml"
+          }
+        }
+      },
       "Mono.TextTemplating/2.2.1": {
         "type": "package",
         "dependencies": {
@@ -1421,6 +1456,21 @@
     }
   },
   "libraries": {
+    "AspNetCore.Identity.MongoDbCore/6.0.0": {
+      "sha512": "Ce4PX1yGGuNATON1Ru//pkD+r6Jn2ZTXYVgaz9DQG3uAejAQSz4h9eG4PdCcRVbIlGxKER5PBo4ix2xqUfLAuQ==",
+      "type": "package",
+      "path": "aspnetcore.identity.mongodbcore/6.0.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "aspnetcore.identity.mongodbcore.6.0.0.nupkg.sha512",
+        "aspnetcore.identity.mongodbcore.nuspec",
+        "lib/net6.0/AspNetCore.Identity.MongoDbCore.dll",
+        "lib/net6.0/AspNetCore.Identity.MongoDbCore.xml",
+        "lib/netstandard2.1/AspNetCore.Identity.MongoDbCore.dll",
+        "lib/netstandard2.1/AspNetCore.Identity.MongoDbCore.xml"
+      ]
+    },
     "DnsClient/1.6.1": {
       "sha512": "4H/f2uYJOZ+YObZjpY9ABrKZI+JNw3uizp6oMzTXwDw6F+2qIPhpRl/1t68O/6e98+vqNiYGu+lswmwdYUy3gg==",
       "type": "package",
@@ -3086,6 +3136,21 @@
         "packageIcon.png"
       ]
     },
+    "MongoDbGenericRepository/1.6.2": {
+      "sha512": "d0uY4rI8Coz2SvALX1NImZIBnxovzLpPbKKDS51RBganZFA1Nj0a7hZd5kQKdXl0wM3rWi6uTO3AQKQox6LdcQ==",
+      "type": "package",
+      "path": "mongodbgenericrepository/1.6.2",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "lib/net472/MongoDbGenericRepository.dll",
+        "lib/net472/MongoDbGenericRepository.xml",
+        "lib/netstandard2.0/MongoDbGenericRepository.dll",
+        "lib/netstandard2.0/MongoDbGenericRepository.xml",
+        "mongodbgenericrepository.1.6.2.nupkg.sha512",
+        "mongodbgenericrepository.nuspec"
+      ]
+    },
     "Mono.TextTemplating/2.2.1": {
       "sha512": "KZYeKBET/2Z0gY1WlTAK7+RHTl7GSbtvTLDXEZZojUdAPqpQNDL6tHv7VUpqfX5VEOh+uRGKaZXkuD253nEOBQ==",
       "type": "package",
@@ -3911,6 +3976,7 @@
   },
   "projectFileDependencyGroups": {
     "net8.0": [
+      "AspNetCore.Identity.MongoDbCore >= 6.0.0",
       "Microsoft.AspNetCore.Authentication.JwtBearer >= 8.0.0",
       "Microsoft.AspNetCore.Identity.EntityFrameworkCore >= 8.0.0",
       "Microsoft.AspNetCore.Mvc.NewtonsoftJson >= 8.0.0",
@@ -3974,6 +4040,10 @@
       "net8.0": {
         "targetAlias": "net8.0",
         "dependencies": {
+          "AspNetCore.Identity.MongoDbCore": {
+            "target": "Package",
+            "version": "[6.0.0, )"
+          },
           "Microsoft.AspNetCore.Authentication.JwtBearer": {
             "target": "Package",
             "version": "[8.0.0, )"
